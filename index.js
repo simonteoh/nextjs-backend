@@ -7,6 +7,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const auth = require('./routes/auth')
 const point = require('./routes/point')
+const user = require('./apis/user')
 const expressListRoutes = require('express-list-routes');
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -14,7 +15,7 @@ app.use(cors())
 app.use(express.json())
 app.use("/auth", auth)
 app.use("/point", point)
-
+app.use("/user", user)
 
 //LOGIN WITH JWT
 app.post("/login", authToken, (req, res) => {
