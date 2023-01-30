@@ -5,7 +5,7 @@ const {check, validationResult} = require("express-validator");
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client')
-const {user} = new PrismaClient()
+const prisma = new PrismaClient()
 
 //Sign up user
 router.post("/signup", [
@@ -15,7 +15,7 @@ router.post("/signup", [
     
     try {
         const {username,name, password} = req.body
-    const userExist = await user.findUnique({
+    const userExist = await prisma.user.findUnique({
         where: {
             username
         },
@@ -35,7 +35,7 @@ router.post("/signup", [
         })
     }
     const hashedPassword = await bcrypt.hash(password, 10)
-    const createUser = await user.create({
+    const createUser = await prisma.user.create({
         data: {
             username,
             name,
@@ -61,7 +61,7 @@ router.post("/signup", [
 router.post("/login", async(req, res) => {
     const { username, password } = req.body;
 
-    const user = await user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
             username
         }
