@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const emitter = require('../apis/user')
 
 //Sign up user
 router.post("/signup", [
@@ -83,11 +84,13 @@ router.post("/login", async(req, res) => {
     
 
     res.set("Authorization", "Bearer " + token);
-
+    emitter.emit('messageLogged')
     return res.json({
         message: "Login success",
         token
     })
     
+    
+
 })
 module.exports = router;

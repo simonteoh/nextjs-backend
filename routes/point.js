@@ -2,18 +2,20 @@ require('dotenv').config()
 
 const router = require("express").Router();
 const { PrismaClient } = require('@prisma/client')
-const {points} = new PrismaClient()
+const prisma = new PrismaClient()
 const checkAuth = require("../middlewares/checkAuth")
 
 
 //Get private user point
-router.get("/", checkAuth,async(req, res) => {
+router.get("/", async(req, res) => {
+    console.log(req.body.userId)
     try {
-        const getPoints = await points.findFirstOrThrow({
+        const getPoints = await prisma.point.findFirstOrThrow({
             where:{
-                userId: req.body.userId
+                userId: 2
             }
         });
+        console.log(getPoints)
         return res.json({
             message: "Retrieved private user point success",
             getPoints
@@ -29,24 +31,25 @@ router.post("/store", async (req, res) => {
     
     try {
         const {point, userId} = req.body
-        const userExist = await points.findUnique({
-            where: {
-                userId
-            },
-            select:{
-                userId: true
-            }
-        })
-        console.log(userExist)
-        if(userExist){
-            return res.status(400).json({
-                message: "User already exists"
-            });
-        }
         
-    const createPoint = await points.create({
+        // const userExist = await prisma.point.findUnique({
+        //     where: {
+        //         userId
+        //     },
+        //     select:{
+        //         userId: true
+        //     }
+        // })
+        // console.log(userExist)
+        // if(userExist){
+        //     return res.status(400).json({
+        //         message: "User already exists"
+        //     });
+        // }
+        
+    const createPoint = await prisma.point.create({
         data: {
-            point,
+            total_earned: point,
             userId
         }
     })

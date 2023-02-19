@@ -1,11 +1,11 @@
 require('dotenv').config()
 const JWT = require('jsonwebtoken')
+const logger = require('../Helpers/logger')
 
 module.exports = async (req, res, next) => {
     const token = res.get("Authorization");
-    console.log(99, token)
-    if(!token){
-        console.log("Bearer token not found");
+        if(!token){
+        logger.error('Bearer token not found');
         return res.status(400).json({
             message: "No token found"
         })

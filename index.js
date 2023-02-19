@@ -41,7 +41,7 @@ function authToken(req, res){
     })
 }
 
-app.listen(5000, () => {
+app.listen(5001, () => {
     console.log('running on 5000 port')
     console.log(expressListRoutes(app, { prefix: '' }))
 })
