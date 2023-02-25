@@ -34,10 +34,10 @@ io.on('connection', (socket) => {
 //     // io.emit('refreshPoint', 123);
 //     console.log('this is interval', i++)
 //   }, 5000);
-socket.on('refreshPoint', () => {
-    io.emit('updatedPoint', i)
-    i++
-    console.log('refreshPoint called', i)
+socket.on('refreshPoint', (data) => {
+    io.emit('updatedPoint', data)
+    
+    console.log('refreshPoint called', data)
 
 });
 

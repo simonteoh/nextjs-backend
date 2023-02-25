@@ -62,4 +62,27 @@ router.post("/store", async (req, res) => {
     }
 })
 
+router.post("/edit", async (req, res) => {
+    try {
+        console.log(999)
+        const {userId, total_earned } = req.body.data;
+        console.log(req.body)
+        //update not work cuz userID in point is not @unique
+        const updatePoint = await prisma.point.update({
+            where: {
+                userId   
+            },
+            data: {
+                total_earned
+            }
+        })
+        res.json({
+            message: "Point updated!",
+            updatePoint
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = router;
